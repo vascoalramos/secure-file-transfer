@@ -97,7 +97,9 @@ class ClientProtocol(asyncio.Protocol):
 
         while idx >= 0:  # While there are separators
             frame = self.buffer[: idx + 2].strip()  # Extract the JSON object
-            self.buffer = self.buffer[idx + 2 :]  # Removes the JSON object from the buffer
+            self.buffer = self.buffer[
+                idx + 2 :
+            ]  # Removes the JSON object from the buffer
 
             self.on_frame(frame)  # Process the frame
             idx = self.buffer.find("\r\n")
@@ -190,7 +192,9 @@ class ClientProtocol(asyncio.Protocol):
             return
 
         elif mtype == "ERROR":
-            logger.warning("Got error from server: {}".format(message.get("data", None)))
+            logger.warning(
+                "Got error from server: {}".format(message.get("data", None))
+            )
 
         else:
             logger.warning("Invalid message type")
@@ -303,10 +307,16 @@ def main():
         help="Server address (default=127.0.0.1)",
     )
     parser.add_argument(
-        "-p", type=int, nargs=1, dest="port", default=5000, help="Server port (default=5000)",
+        "-p",
+        type=int,
+        nargs=1,
+        dest="port",
+        default=5000,
+        help="Server port (default=5000)",
     )
     parser.add_argument(
         "-i",
+        type=int,
         dest="iters_per_key",
         default=1000,
         help="Number of iterations per key (default 1000)",
@@ -324,7 +334,9 @@ def main():
     coloredlogs.install(level)
     logger.setLevel(level)
 
-    logger.info("Sending file: {} to {}:{} LogLevel: {}".format(file_name, server, port, level))
+    logger.info(
+        "Sending file: {} to {}:{} LogLevel: {}".format(file_name, server, port, level)
+    )
 
     loop = asyncio.get_event_loop()
     coro = loop.create_connection(
