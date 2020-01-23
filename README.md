@@ -7,7 +7,7 @@ This project is a product of a practical assignement of one of our classes: [Inf
 The implementation uses the following aproaches:
 * Symmetric Keys
 * Diffie-Hellman key exchange
-* Key Renegation
+* Key Renegotiation
 * Integretity and MAC
 
 ## Authors
