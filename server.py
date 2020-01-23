@@ -79,7 +79,9 @@ class ClientHandler(asyncio.Protocol):
 
         while idx >= 0:  # While there are separators
             frame = self.buffer[: idx + 2].strip()  # Extract the JSON object
-            self.buffer = self.buffer[idx + 2 :]  # Removes the JSON object from the buffer
+            self.buffer = self.buffer[
+                idx + 2 :
+            ]  # Removes the JSON object from the buffer
 
             self.on_frame(frame)  # Process the frame
             idx = self.buffer.find("\r\n")
@@ -391,7 +393,12 @@ def main():
         default=0,
     )
     parser.add_argument(
-        "-p", type=int, nargs=1, dest="port", default=5000, help="TCP Port to use (default=5000)",
+        "-p",
+        type=int,
+        nargs=1,
+        dest="port",
+        default=5000,
+        help="TCP Port to use (default=5000)",
     )
 
     parser.add_argument(

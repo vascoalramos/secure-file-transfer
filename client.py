@@ -221,7 +221,6 @@ class ClientProtocol(asyncio.Protocol):
         text = None
         with open(file_name, "rb") as reader:
             data_message = {"type": "DATA", "data": None}
-            reader.seek(self.file_padding)
 
             if self.used_symetric_cipher == "AES":
                 block_size = 16 * 60
@@ -230,6 +229,7 @@ class ClientProtocol(asyncio.Protocol):
             elif self.used_symetric_cipher == "ChaCha20":
                 block_size = 16 * 60
 
+            reader.seek(self.file_padding)
             # Send each chunk
             for i in range(self.iterations_per_key):
                 chunk = reader.read(block_size)

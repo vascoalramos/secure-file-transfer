@@ -53,7 +53,9 @@ def generate_key(password, algorithm_name, digest_algorithm=None):
         algorithm_name == "AES-128"
     ):  # AES-128 uses a key with 128 bits so we only want the first 16 bytes
         key = key[:16]
-    elif algorithm_name == "3DES":  # 3DES uses a key with 56 bits so we only want the first 8 bytes
+    elif (
+        algorithm_name == "3DES"
+    ):  # 3DES uses a key with 56 bits so we only want the first 8 bytes
         key = key[:8]
 
     return key
@@ -164,7 +166,9 @@ def symmetric_encrypt(message, key, algorithm_name, mode_name):
         nonce = os.urandom(16)
         block_size = len(message)
 
-        cipher = Cipher(algorithms.ChaCha20(key, nonce), mode=mode, backend=default_backend())
+        cipher = Cipher(
+            algorithms.ChaCha20(key, nonce), mode=mode, backend=default_backend()
+        )
 
     else:
         raise Exception("Algorithm name not found")
@@ -250,7 +254,9 @@ def symmetric_key_decrypt(
 
         key = key[:32]
 
-        cipher = Cipher(algorithms.ChaCha20(key, nonce), mode=mode, backend=default_backend())
+        cipher = Cipher(
+            algorithms.ChaCha20(key, nonce), mode=mode, backend=default_backend()
+        )
 
     else:
         raise Exception("Algorithm name not found")
@@ -266,7 +272,9 @@ def diffie_hellman_client():
     It calculates the parameters and the private and public components
     :return: The shared parameters, the private component and the public component
     """
-    parameters = dh.generate_parameters(generator=2, key_size=512, backend=default_backend())
+    parameters = dh.generate_parameters(
+        generator=2, key_size=512, backend=default_backend()
+    )
 
     private_key = parameters.generate_private_key()
     public_key = private_key.public_key()
@@ -317,7 +325,9 @@ def generate_shared_key(private_key, public_key_pem, algorithm):
     :param public_key_pem:
     :param algorithm: The digestion algorithm
     """
-    public_key = serialization.load_pem_public_key(public_key_pem, backend=default_backend())
+    public_key = serialization.load_pem_public_key(
+        public_key_pem, backend=default_backend()
+    )
 
     shared_key = private_key.exchange(public_key)
 
@@ -364,7 +374,10 @@ def create_secure_message(
     }
 
     cryptogram, iv, nonce, tag = symmetric_encrypt(
-        str.encode(json.dumps(message_to_encrypt)), shared_key, symetric_cipher, cipher_mode,
+        str.encode(json.dumps(message_to_encrypt)),
+        shared_key,
+        symetric_cipher,
+        cipher_mode,
     )
 
     # Encrypt our message
